@@ -277,6 +277,9 @@ jobs:
           - target: alpha
             triple: alpha-linux-gnu
             opts: TARGET=EV4
+          - target: sparc64
+            triple: sparc64-linux-gnu
+            opts: TARGET=SPARC
 
     steps:
       - name: Checkout repository
@@ -306,4 +309,4 @@ jobs:
 
       - name: Build OpenBLAS
         run: |
-          make -j$(nproc) HOSTCC="ccache gcc" CC="ccache ${{ matrix.triple }}-gcc" FC="ccache ${{ matrix.triple }}-gfortran" ARCH=${{ matrix.target }} ${{ matrix.opts }}
+          make -j$(nproc) HOSTCC="ccache gcc" CC="ccache ${{ matrix.triple }}-gcc" FC="ccache ${{ matrix.triple }}-gfortran" ${{ matrix.opts }}
