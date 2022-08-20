@@ -268,6 +268,9 @@ jobs:
           - target: mips64el
             triple: mips64el-linux-gnuabi64
             opts: DYNAMIC_ARCH=1
+          - target: mips64r6el
+            triple: mipsisa64r6el-linux-gnuabi64
+            opts: TARGET=MIPS64_GENERIC
           - target: riscv64
             triple: riscv64-linux-gnu
             opts: TARGET=RISCV64_GENERIC
@@ -306,4 +309,4 @@ jobs:
 
       - name: Build OpenBLAS
         run: |
-          make -j$(nproc) HOSTCC="ccache gcc" CC="ccache ${{ matrix.triple }}-gcc" FC="ccache ${{ matrix.triple }}-gfortran" ARCH=${{ matrix.target }} ${{ matrix.opts }}
+          make -j$(nproc) HOSTCC="ccache gcc" CC="ccache ${{ matrix.triple }}-gcc" FC="ccache ${{ matrix.triple }}-gfortran" ${{ matrix.opts }}
