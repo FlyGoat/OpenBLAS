@@ -72,16 +72,18 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define CPU_UNKNOWN         0
 #define CPU_MIPS64_GENERIC  1
-#define CPU_SICORTEX        2
-#define CPU_LOONGSON3R3     3
-#define CPU_LOONGSON3R4     4
-#define CPU_I6400           5
-#define CPU_P6600           6
-#define CPU_I6500           7
+#define CPU_MIPS64R6_GENERIC  2
+#define CPU_SICORTEX        3
+#define CPU_LOONGSON3R3     4
+#define CPU_LOONGSON3R4     5
+#define CPU_I6400           6
+#define CPU_P6600           7
+#define CPU_I6500           8
 
 static char *cpuname[] = {
   "UNKNOWN",
-  "MIPS64_GENERIC"
+  "MIPS64_GENERIC",
+  "MIPS64R6_GENERIC",
   "SICORTEX",
   "LOONGSON3R3",
   "LOONGSON3R4",
@@ -116,7 +118,11 @@ int detect(void){
     }
   }
 
+#if defined(__mips_isa_rev) && (__mips_isa_rev >= 6)
+  return CPU_MIPS64R6_GENERIC;
+#else
   return CPU_MIPS64_GENERIC;
+#endif
 #else
   return CPU_UNKNOWN;
 #endif
@@ -144,7 +150,11 @@ void get_subarchitecture(void){
   }else if(detect()==CPU_SICORTEX){
     printf("SICORTEX");
   }else{
+#if defined(__mips_isa_rev) && (__mips_isa_rev >= 6)
+    printf("MIPS64R6_GENERIC");
+#else
     printf("MIPS64_GENERIC");
+#endif
   } 
 }
 
@@ -199,7 +209,11 @@ void get_cpuconfig(void){
     printf("#define DTB_SIZE 4096\n");
     printf("#define L2_ASSOCIATIVE 8\n");
   }else{
-    printf("#define SICORTEX\n");
+#if defined(__mips_isa_rev) && (__mips_isa_rev >= 6)
+    printf("#define MIPS64R6_GENERIC\n");
+#else
+    printf("#define MIPS64_GENERIC\n");
+#endif
     printf("#define L1_DATA_SIZE 32768\n");
     printf("#define L1_DATA_LINESIZE 32\n");
     printf("#define L2_SIZE 512488\n");
@@ -223,7 +237,11 @@ void get_libname(void){
   }else if(detect()==CPU_I6500) {
     printf("i6500\n");
   }else {
+#if defined(__mips_isa_rev) && (__mips_isa_rev >= 6)
+    printf("mips64r6_generic\n");
+#else
     printf("mips64_generic\n");
+#endif
   }
 }
 

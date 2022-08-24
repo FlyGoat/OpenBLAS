@@ -1,0 +1,31 @@
+SAMAXKERNEL  = ../mips/amax.c
+DAMAXKERNEL  = ../mips/amax.c
+CAMAXKERNEL  = ../mips/zamax.c
+ZAMAXKERNEL  = ../mips/zamax.c
+
+SAMINKERNEL  = ../mips/amin.c
+DAMINKERNEL  = ../mips/amin.c
+CAMINKERNEL  = ../mips/zamin.c
+ZAMINKERNEL  = ../mips/zamin.c
+
+SMAXKERNEL   = ../mips/max.c
+DMAXKERNEL   = ../mips/max.c
+
+SMINKERNEL   = ../mips/min.c
+DMINKERNEL   = ../mips/min.c
+
+ISAMAXKERNEL = ../mips/iamax.c
+IDAMAXKERNEL = ../mips/iamax.c
+ICAMAXKERNEL = ../mips/izamax.c
+IZAMAXKERNEL = ../mips/izamax.c
+
+ISAMINKERNEL = ../mips/iamin.c
+IDAMINKERNEL = ../mips/iamin.c
+ICAMINKERNEL = ../mips/izamin.c
+IZAMINKERNEL = ../mips/izamin.c
+
+ISMAXKERNEL  = ../mips/imax.c
+IDMAXKERNEL  = ../mips/imax.c
+
+ISMINKERNEL  = ../mips/imin.c
+IDMINKERNEL  = ../mips/imin.c

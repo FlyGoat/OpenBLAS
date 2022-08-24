@@ -47,22 +47,32 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endif
 #endif
 
+#define TEXTNIFY(A) #A
+
+#if defined(__mips_isa_rev) && (__mips_isa_rev >= 6)
+#define GENERIC_NAME MIPS64R6_GENERIC
+#else
+#define GENERIC_NAME MIPS64_GENERIC
+#endif
+
+#define GENERIC_FUNC gotoblas_##GENERIC_NAME
+
 #ifdef DYNAMIC_LIST
-extern gotoblas_t  gotoblas_MIPS64_GENERIC;
+extern gotoblas_t  GENERIC_FUNC;
 #ifdef DYN_LOONGSON3R3
 extern gotoblas_t  gotoblas_LOONGSON3R3;
 #else
-#define  gotoblas_LOONGSON3R3 gotoblas_MIPS64_GENERIC
+#define  gotoblas_LOONGSON3R3 GENERIC_FUNC
 #endif
 #ifdef DYN_LOONGSON3R4
 extern gotoblas_t  gotoblas_LOONGSON3R4;
 #else
-#define  gotoblas_LOONGSON3R4 gotoblas_MIPS64_GENERIC
+#define  gotoblas_LOONGSON3R4 GENERIC_FUNC
 #endif
 #else
 extern gotoblas_t  gotoblas_LOONGSON3R3;
 extern gotoblas_t  gotoblas_LOONGSON3R4;
-extern gotoblas_t  gotoblas_MIPS64_GENERIC;
+extern gotoblas_t  GENERIC_FUNC;
 #endif
 
 extern void openblas_warning(int verbose, const char * msg);
@@ -70,14 +80,14 @@ extern void openblas_warning(int verbose, const char * msg);
 #define NUM_CORETYPES    3
 
 static char *corename[] = {
-  "MIPS64_GENERIC"
+  TEXTNIFY(GENERIC_NAME),
   "loongson3r3",
   "loongson3r4",
   "UNKNOWN"
 };
 
 char *gotoblas_corename(void) {
-  if (gotoblas == &gotoblas_MIPS64_GENERIC) return corename[0];
+  if (gotoblas == &GENERIC_FUNC) return corename[0];
   if (gotoblas == &gotoblas_LOONGSON3R3)    return corename[1];
   if (gotoblas == &gotoblas_LOONGSON3R4)    return corename[2];
   return corename[NUM_CORETYPES];
@@ -99,7 +109,7 @@ static gotoblas_t *force_coretype(char *coretype) {
 
   switch (found)
   {
-    case  0: return (&gotoblas_MIPS64_GENERIC);
+    case  0: return (&GENERIC_FUNC);
     case  1: return (&gotoblas_LOONGSON3R3);
     case  2: return (&gotoblas_LOONGSON3R4);
   }
@@ -191,9 +201,9 @@ void gotoblas_dynamic_init(void) {
 
   if (gotoblas == NULL)
   {
-    snprintf(coremsg, 128, "Falling back to MIPS64_GENEIRC\n");
+    snprintf(coremsg, 128, "Falling back to " TEXTNIFY(GENERIC_NAME) "\n");
     openblas_warning(1, coremsg);
-    gotoblas = &gotoblas_MIPS64_GENERIC;
+    gotoblas = &GENERIC_FUNC;
   }
 
   if (gotoblas && gotoblas->init) {

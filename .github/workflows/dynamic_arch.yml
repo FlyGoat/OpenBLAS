@@ -270,7 +270,7 @@ jobs:
             opts: DYNAMIC_ARCH=1
           - target: mips64r6el
             triple: mipsisa64r6el-linux-gnuabi64
-            opts: TARGET=MIPS64_GENERIC
+            opts: TARGET=MIPS64R6_GENERIC
           - target: riscv64
             triple: riscv64-linux-gnu
             opts: TARGET=RISCV64_GENERIC
